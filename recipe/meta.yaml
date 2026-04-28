@@ -1,0 +1,50 @@
+{% set name = "azure-keyvault-administration" %}
+{% set version = "4.4.0" %}
+
+package:
+  name: {{ name }}
+  version: {{ version }}
+
+source:
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: 7a6b36cb9f544f35750ff2fa94c83b97b3ef20c1fe1b424ea68018eee703f1df
+
+build:
+  number: 0
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  skip: true  # [py<38]
+
+requirements:
+  host:
+    - python
+    - pip
+    - wheel
+    - setuptools
+  run:
+    - python
+    - azure-core >=1.29.5,<2.0.0
+    - isodate >=0.6.1
+    - typing_extensions >=4.0.1
+
+test:
+  imports:
+    - azure.keyvault.administration
+    - azure.keyvault.administration._generated
+  commands:
+    - pip check
+  requires:
+    - pip
+
+about:
+  home: https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/keyvault/azure-keyvault-administration
+  summary: Microsoft Azure Key Vault Administration Client Library for Python
+  license: MIT
+  license_file: LICENSE
+  license_family: MIT
+  description: Azure Key Vault Administration client library for Python
+  dev_url: https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/keyvault/azure-keyvault-administration
+  doc_url: https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/keyvault/azure-keyvault-administration
+
+extra:
+  recipe-maintainers:
+    - janjagusch
